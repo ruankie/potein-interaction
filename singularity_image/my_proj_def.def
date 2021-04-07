@@ -1,0 +1,42 @@
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+    apt-get update
+    apt-get install -y python3.7 \
+    sudo
+    sudo apt-get install -y python3.7-dev
+    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 10
+    #apt-get install -y python-pip
+    apt-get install -y python3-pip \
+    wget
+    sudo wget https://www.mpich.org/static/downloads/3.2/mpich-3.2.tar.gz
+    sudo tar -zxf mpich-3.2.tar.gz
+    cd mpich-3.2
+    ./configure --enable-shared --prefix=/usr/local/mpich --disable-fortran
+    sudo make
+    sudo make install
+    MPI_DIR=/usr/local/mpich
+    export LD_LIBRARY_PATH=$MPI_DIR/lib:$LD_LIBRARY_PATH
+    sudo env MPICC=/usr/local/mpich/bin/mpicc python3.7 -m pip install mpi4py
+    sudo python3.7 -m pip install numpy \
+    scipy \
+    matplotlib \
+    pandas
+    #sudo python3.7 -m pip install biopython
+    sudo python3.7 -m pip install prody
+    #sudo echo "export PATH=$PATH:/usr/local/mpich/bin/" >> ~/.bashrc
+    
+%environment
+    PATH=$PATH:/usr/local/mpich/bin/
+
+%labels
+    Author Ruan Pretorius (790674)
+    Version v0.0.1
+
+%help
+    Run test to reproduce results by executing the following command:
+    singularity exec 790674_project.sif mpiexec -np <nb_nodes> python run_test.py <directory/containing/pdb/files> <k> <theta>
+    <nb_nodes> = number of CPUs to use
+    <k> = length of amino acid sequence to return
+    <theta> = cut-off distance for what is considered interactions
