@@ -1,5 +1,7 @@
 # Frequency of Different Amino Acid Sequences in Protein-Protein Interactions
 
+> Read full report [here](https://github.com/ruankie/potein-interaction/blob/main/report.pdf)
+
 ## Project Overview
 This project involved creating an algorithm that counted the amount of protein-protein interactions where a sequence of k neighbouring amino acids were involved within a cut-off distance of θ Å.
 
@@ -36,7 +38,7 @@ The aim of this project was to test the hypothesis that certain sequences of k c
 |    |
 |    |---run_test.py  // the python code that finds interacting amino acid sequences
 |    |---test_script.sc  // an axample of the script that was submitted to SLURM to run experiments/jobs
-
+|
 |---singularity_image
 |    |
 |    |---my_proj_def.def // singularity definition file that will create an environment where my results can be reproduced
